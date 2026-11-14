@@ -1,10 +1,15 @@
 import PageTitle from "../components/PageTitle";
 import CarCard from "../components/CarCard";
-import { cars, categories } from "../data";
-
+import api from "../api/api";
 export default function Cars() {
-  const availableCars = cars.filter((car) => car.status === "available");
-
+  const [availableCars, setAvailableCars] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [categoryId, setCategoryId] = useState("");
+useEffect(() => {
+  api.get("/cars/available").then((res) => setCars(res.data))
+  api.get("/categories").then((res) => setCategories(res.data))
+}, []);
+const showcars = categoryId? cars.filter((car) => car.category_Id === categoryId) : Cars;
   return (
     <>
       <PageTitle
